@@ -23,12 +23,17 @@ public class MemberController {
     }
 
     @GetMapping("/member/{memberId}")
-    public ResponseEntity<MemberResponse> findMember(@PathVariable long memberId) {
+    public ResponseEntity<MemberResponse> findMember(@PathVariable Long memberId) {
         return ResponseEntity.ok(memberService.findMember(memberId));
     }
 
     @GetMapping("/members")
     public ResponseEntity<List<MemberResponse>> findMembers() {
-        return ResponseEntity.ok(memberService.findMembers());
+        return ResponseEntity.ok(memberService.findAllRegisteredMember());
+    }
+
+    @DeleteMapping("/member/{memberId}")
+    public ResponseEntity<MemberResponse> deleteMember(@PathVariable Long memberId) {
+        return ResponseEntity.ok(memberService.deleteMember(memberId));
     }
 }

@@ -1,14 +1,16 @@
 package backend.jambo.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
+
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
 @Entity
 public class Member {
@@ -17,7 +19,23 @@ public class Member {
     private long id;
     private String nickname;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @CreatedDate
+    private LocalDateTime joinDate;
+
+    private Member(long id, String nickname, Status status) {
+        this.id = id;
+        this.nickname = nickname;
+        this.status = status;
+    }
+
     public static Member of(long id, String nickname) {
-        return new Member(id, nickname);
+        return new Member(id, nickname, Status.REGISTER);
+    }
+
+    public void updateStatus() {
+        this.status = Status.WITHDRAWN;
     }
 }
