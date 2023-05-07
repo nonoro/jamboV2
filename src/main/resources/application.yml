@@ -5,3 +5,7 @@ spring:
         show_sql: true
         format_sql: true
     open-in-view: false
+
+  config:
+    import:
+      - classpath:application-jwt.yml
