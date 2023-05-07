@@ -43,7 +43,7 @@ class MemberControllerTest extends AcceptanceTest {
 
     @DisplayName("요청 id에 해당하는 회원 한명을 조회한다.")
     @Test
-    void  ㅏfindMember() {
+    void  findMember() {
         MemberRequest request = new MemberRequest(20230501, "김영철");
 
         var response = given().log().all()
