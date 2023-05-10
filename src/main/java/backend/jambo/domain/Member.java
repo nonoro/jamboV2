@@ -45,4 +45,12 @@ public class Member {
     public void updateStatus() {
         this.status = Status.WITHDRAWN;
     }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }
