@@ -91,6 +91,32 @@ class MemberControllerTest extends AcceptanceTest {
         assertThat(members.size()).isEqualTo(findMembers.jsonPath().getList("id").size());
     }
 
+    @DisplayName("회원의 닉네임을 수정한다.")
+    @Test
+    void updateMemberNickname() {
+        MemberRequest member = new MemberRequest(1111111, "김영철");
+
+        ExtractableResponse<Response> saveMember = given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(member)
+                .when().post("/member")
+                .then().log().all()
+                .extract();
+
+        MemberRequest updateMember = new MemberRequest("김영진");
+        long id = 1111111;
+
+        var findMemberResponse = given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("id", id)
+                .body(updateMember)
+                .when().put("/member/{id}")
+                .then().log().all()
+                .extract();
+
+        assertThat(findMemberResponse.jsonPath().getString("nickname")).isEqualTo(updateMember.nickname());
+    }
+
     @DisplayName("회원 탈퇴시 회원의 상태를 탈퇴로 변경한다.")
     @Test
     void deleteMember() {
@@ -112,10 +138,10 @@ class MemberControllerTest extends AcceptanceTest {
                     .extract();
         }
 
-        long memberId = 1111111;
+        long id = 1111111;
 
         ExtractableResponse<Response> deletedMember = given().log().all()
-                .when().delete("/member/" + memberId)
+                .when().delete("/member/" + id)
                 .then().log().all()
                 .extract();
 

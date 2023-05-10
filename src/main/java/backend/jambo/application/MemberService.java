@@ -29,9 +29,9 @@ public class MemberService {
         return MemberResponse.of(member);
     }
 
-    public MemberResponse findMember(long memberId) {
-        return MemberResponse.of(memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalStateException(String.format("존재하지 않는 유저 %d 입니다.", memberId))));
+    public MemberResponse findMember(long id) {
+        return MemberResponse.of(memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException(String.format("존재하지 않는 유저 %d 입니다.", id))));
     }
 
     public List<MemberResponse> findAllRegisteredMember() {
@@ -42,11 +42,21 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberResponse deleteMember(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("존재하지 않는 유저 %d 입니다.", memberId)));
+    public MemberResponse deleteMember(Long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("존재하지 않는 유저 %d 입니다.", id)));
 
         member.updateStatus();
+
+        return MemberResponse.of(member);
+    }
+
+    @Transactional
+    public MemberResponse updateMember(Long id, String nickname) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("존재하지 않는 유저 %d 입니다.", id)));
+
+        member.updateNickname(nickname);
 
         return MemberResponse.of(member);
     }
