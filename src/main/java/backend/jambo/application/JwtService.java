@@ -4,13 +4,13 @@ import backend.jambo.config.JwtConfig;
 import backend.jambo.repository.MemberRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.Optional;
 
@@ -32,7 +32,7 @@ public class JwtService {
     * AccessToken 생성 메서드
     * 따로 넣을 커스텀 정보(claim)가 없으므로 withClaim 생략
     * */
-    public String createAccessToken() {
+    public String createAccessToken(Long id) {
         Date now = new Date();
         return JWT.create()
                 .withSubject(ACCESS_TOKEN_SUBJECT)
